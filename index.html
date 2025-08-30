@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Hrichik Khandait | Portfolio</title>
+    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        html, body { scroll-behavior: smooth; }
+        body {
+            background: #181f26;
+            color: #f4f4f5;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            overflow-x: hidden;
+        }
+        .section-card {
+            border-radius: 1.2rem;
+            margin: 2rem auto;
+            padding: 2.5rem 1.5rem;
+            background: #232d36;
+            box-shadow: 0 6px 32px 0 rgba(36,37,38,.15);
+            position: relative;
+            max-width: 900px;
+            transition: box-shadow 0.3s, filter 0.3s, background 0.3s;
+        }
+        .section-card:hover, .section-card:focus-within {
+            box-shadow: 0 12px 48px 0 #3b82f6cc, 0 0 0 4px #7b2ff2;
+            filter: brightness(1.06) saturate(1.1);
+            z-index: 2;
+        }
+        .section-title {
+            font-size: 2.3rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-align: left;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.7em;
+        }
+        .section-title:before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 36px;
+            border-radius: 8px;
+            margin-right: 18px;
+            background: linear-gradient(180deg, #3b82f6 0%, #a78bfa 100%);
+        }
+        .typing {
+            font-size: 2rem;
+            font-weight: 500;
+            color: #fff;
+            min-height: 2.5em;
+            border-right: .12em solid #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink-caret 0.75s step-end infinite;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #fff; }
+        }
+        .glow-img {
+            box-shadow: 0 0 24px 6px #a78bfa, 0 0 48px 16px #3b82f6;
+            border-radius: 50%;
+            transition: box-shadow 0.3s;
+        }
+        .glow-img:hover, .glow-img:focus {
+            box-shadow: 0 0 48px 16px #3b82f6, 0 0 64px 32px #a78bfa;
+        }
+        .education-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        .education-card {
+            background: #232d36;
+            color: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px 0 #0006;
+            padding: 1.3rem 2rem 1.1rem 2rem;
+            max-width: 600px;
+            width: 100%;
+            font-size: 1.09rem;
+            font-weight: 500;
+            transition: box-shadow 0.3s, filter 0.3s, background 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .education-card:hover, .education-card:focus-within {
+            background: #293545;
+            filter: brightness(1.08);
+            box-shadow: 0 8px 32px 0 #3b82f6cc;
+        }
+        .education-card .degree {
+            font-size: 1.18em;
+            font-weight: bold;
+            margin-bottom: 0.2em;
+        }
+        .education-card .school {
+            font-size: 1.08em;
+            margin-bottom: 0.15em;
+            font-weight: 500;
+        }
+        .education-card .loc,
+        .education-card .year {
+            font-size: 0.99em;
+            color: #b8c2cc;
+            margin-bottom: 0.1em;
+        }
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        .skills-summary-card {
+            background: linear-gradient(135deg, #ffb347 0%, #4f8ef7 100%);
+            border-radius: 1.2rem;
+            margin-bottom: 1.3rem;
+            padding: 1.2rem 1.5rem 1.6rem 1.5rem;
+            box-shadow: 0 4px 20px 0 #4f8ef755;
+            color: #fff;
+            min-width: 300px;
+            max-width: 340px;
+            flex: 1 1 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: box-shadow 0.3s, filter 0.3s, background 0.3s;
+        }
+        .skills-summary-card:hover, .skills-summary-card:focus-within {
+            background: linear-gradient(135deg, #4f8ef7 0%, #ffb347 100%);
+            filter: brightness(1.09) saturate(1.10);
+            box-shadow: 0 8px 32px 0 #a259c6aa;
+        }
+        .skills-summary-card .skill-title {
+            font-size: 1.35rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .skill-box {
+            background: #60a5fa;
+            color: #fff;
+            border-radius: 0.5em;
+            padding: 0.7em 1em;
+            margin-bottom: 0.8em;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+            width: 100%;
+        }
+        /* Universal hover effect for all skill boxes */
+        .skill-box:hover {
+            background: #232946 !important; /* Forces the hover color */
+            color: #fff;
+            box-shadow: 0 0 0 2px #3b82f6;
+        }
+        .projects-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            padding-bottom: 1.5rem;
+        }
+        .project-card {
+            border-radius: 1.2rem;
+            box-shadow: 0 8px 32px 0 #3b82f655;
+            padding: 2rem 2.5rem;
+            width: 340px;
+            min-height: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: #232d36;
+            color: #fff;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+            position: relative;
+            flex-shrink: 0;
+            margin-bottom: 0.5rem;
+        }
+        .project-card:hover, .project-card:focus-within {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 16px 40px 0 #3b82f6cc, 0 0 0 6px #a78bfa44;
+            filter: brightness(1.07) saturate(1.11);
+            z-index: 2;
+            background: linear-gradient(135deg, #3b82f6 0%, #7b2ff2 100%);
+        }
+        .project-icon {
+            font-size: 2.3rem;
+            margin-bottom: 0.7rem;
+        }
+        .project-title {
+            font-size: 1.18rem;
+            font-weight: bold;
+            margin-bottom: 0.1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .project-stack {
+            font-style: italic;
+            color: #b8c2cc;
+            font-size: 1rem;
+            margin-bottom: 0.7rem;
+        }
+        .project-card ul {
+            margin-left: 1.2em;
+            margin-top: 0.2em;
+            color: #fff;
+            font-size: 1em;
+        }
+        .project-card li {
+            margin-bottom: 0.35em;
+            font-size: 1.03rem;
+            list-style: disc;
+        }
+        .hobbies-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+        }
+        .hobby-icon-card {
+            background: #232d36;
+            border-radius: 1.2rem;
+            box-shadow: 0 6px 24px 0 #3b82f655;
+            width: 180px;
+            height: 170px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.08rem;
+            text-align: center;
+            transition: transform 0.18s, box-shadow 0.18s, background 0.3s;
+            cursor: pointer;
+        }
+        .hobby-icon-card:hover, .hobby-icon-card:focus-within {
+            transform: translateY(-7px) scale(1.08);
+            box-shadow: 0 16px 40px 0 #3b82f6cc, 0 0 0 4px #a78bfa44;
+            background: linear-gradient(135deg, #3b82f6 0%, #a78bfa 100%);
+            color: #fff;
+            z-index: 2;
+        }
+        .hobby-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            transition: color 0.3s;
+        }
+        .glow-card {
+            box-shadow: 0 0 24px 6px #a78bfa, 0 0 48px 16px #3b82f6;
+            transition: box-shadow 0.3s, filter 0.3s;
+            background: #232d36;
+            border-radius: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        .glow-card:hover, .glow-card:focus-within {
+            box-shadow: 0 0 48px 16px #3b82f6, 0 0 64px 32px #a78bfa;
+            filter: brightness(1.12) saturate(1.13);
+        }
+        .resume-btn {
+            background: linear-gradient(135deg, #3b82f6, #a78bfa);
+            color: #fff;
+            border-radius: 1em;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 1em 2.2em;
+            margin: 0 1em;
+            box-shadow: 0 4px 18px #3b82f666;
+            cursor: pointer;
+            border: none;
+            transition: background 0.3s, box-shadow 0.3s, filter 0.3s;
+            display: inline-block;
+        }
+        .resume-btn:hover, .resume-btn:focus {
+            background: linear-gradient(135deg, #a78bfa, #3b82f6);
+            filter: brightness(1.09) saturate(1.18);
+            box-shadow: 0 8px 32px #a78bfa66;
+        }
+        .contact-title {
+            font-size: 2.3rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 2px 20px #3b82f6, 0 0 8px #232946;
+            margin-bottom: 1.7rem;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .contact-icon svg { transition: color 0.3s, transform 0.3s; }
+        .contact-icon:hover svg { color: #a78bfa; transform: scale(1.18);}
+        footer { background: #232946; color: #a78bfa; }
+        .hidden { display: none; }
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #7b2ff2, #3b82f6);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 54px;
+            height: 54px;
+            box-shadow: 0 4px 18px #3b82f666;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 999;
+            font-size: 2rem;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        #back-to-top:hover {
+            background: linear-gradient(135deg, #3b82f6, #a78bfa);
+            box-shadow: 0 8px 32px #a78bfa66;
+        }
+        /* Certificates Bar */
+        .cert-bar-container {
+            width: 100%;
+            overflow: hidden;
+            margin: 0 auto;
+            max-width: 900px;
+        }
+        .cert-bar-track {
+            display: inline-flex;
+            gap: 2.5rem;
+            padding: 1.5rem 0;
+            align-items: center;
+            white-space: nowrap;
+        }
+        .cert-bar-card {
+            width: 320px;
+            height: auto;
+            background: #232d36;
+            color: #fff;
+            border-radius: 1.2rem;
+            box-shadow: 0 0 24px 6px #a78bfa, 0 0 48px 16px #3b82f6;
+            padding: 0;
+            font-weight: 600;
+            transition: box-shadow 0.3s, filter 0.3s, transform 0.3s;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .cert-bar-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 48px 16px #3b82f6, 0 0 64px 32px #a78bfa;
+            filter: brightness(1.12) saturate(1.13);
+        }
+        .cert-bar-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 1.2rem;
+            box-shadow: none;
+        }
+        @media (max-width: 700px) {
+            .cert-bar-track { gap: 1rem; }
+            .cert-bar-card { width: 240px; }
+            .section-title { font-size: 1.8rem; }
+            .typing { font-size: 1.5rem; }
+            .about-text { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="fixed top-0 w-full p-4 shadow-lg z-10" style="background-color: #3a2b66;">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold flex items-center text-yellow-300">
+                <svg class="w-10 h-10 mr-2" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="#FDE047"/>
+                    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#3a2b66" font-weight="bold">HK</text>
+                </svg>
+                Hrichik Khandait
+            </h1>
+            <ul class="flex space-x-6">
+                <li><a href="#home" class="hover:text-yellow-300 text-white">Home</a></li>
+                <li><a href="#about" class="hover:text-yellow-300 text-white">About</a></li>
+                <li><a href="#education" class="hover:text-yellow-300 text-white">Education</a></li>
+                <li><a href="#skills" class="hover:text-yellow-300 text-white">Skills</a></li>
+                <li><a href="#projects" class="hover:text-yellow-300 text-white">Projects</a></li>
+                <li><a href="#hobbies" class="hover:text-yellow-300 text-white">Hobbies</a></li>
+                <li><a href="#resume" class="hover:text-yellow-300 text-white">Resume</a></li>
+                <li><a href="#contact" class="hover:text-yellow-300 text-white">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <button id="back-to-top" title="Back to Top" class="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg flex items-center justify-center text-3xl transition-all hover:scale-110">
+        &#8593;
+    </button>
+
+    <section id="home" class="section-card flex items-center justify-center min-h-screen mt-20 md:mt-0">
+        <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="text-center md:text-left md:w-2/3">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 section-title">Hi, I'm Hrichik Khandait</h1>
+                <p id="typing" class="typing text-lg md:text-2xl"></p>
+                <a href="#contact" class="inline-block mt-8 px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg shadow-lg font-semibold hover:from-blue-600 hover:to-purple-700 transition">Contact Me</a>
+            </div>
+            <div class="md:w-1/3 flex justify-center mt-8 md:mt-0">
+                <img src="img1.jpg" alt="Hrichik's Photo" class="rounded-full w-56 h-56 md:w-64 md:h-64 glow-img">
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section-card">
+        <h2 class="section-title">About Me</h2>
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-2/3">
+                <p class="text-lg leading-relaxed about-text">
+                    I am a dedicated student of Data Science and Artificial Intelligence, currently pursuing a Bachelor of Science in Data Science and Applications from the Indian Institute of Technology Madras, alongside a Bachelor of Technology in Computer Science (AI) from the Institute of Engineering and Management, Kolkata.
+
+With a strong foundation in programming, web technologies, and database systems, I specialize in Generative AI and Machine Learning. My passion lies in leveraging cutting-edge technology to solve real-world problems and drive meaningful innovation in the field of AI.
+
+I am actively seeking opportunities to collaborate on forward-thinking projects and continuously expand my knowledge to stay at the forefront of technological advancements.
+                </p>
+            </div>
+            <div class="md:w-1/3 flex justify-center mt-6 md:mt-0">
+                <img src="img2.png" alt="Hrichik's Photo" class="rounded-full w-48 h-48 md:w-56 md:h-56 glow-img">
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="section-card">
+        <h2 class="section-title">Education</h2>
+        <div class="education-list">
+            <div class="education-card flyin-edu">
+                <div class="degree">Bachelor of Science (Data Science and Application)</div>
+                <div class="school">Indian Institute of Technology, Madras</div>
+                <div class="loc">Chennai, India</div>
+                <div class="year">2024 - present</div>
+            </div>
+            <div class="education-card flyin-edu">
+                <div class="degree">Bachelor of Technology (CSE - AI)</div>
+                <div class="school">Institute of Engineering and Management, Kolkata</div>
+                <div class="loc">Kolkata, India</div>
+                <div class="year">2024 - present</div>
+            </div>
+            <div class="education-card flyin-edu">
+                <div class="degree">Higher Secondary Education (Science)</div>
+                <div class="school">Purv International School, Durgapur</div>
+                <div class="loc">Durgapur, India</div>
+                <div class="year">2024</div>
+            </div>
+            <div class="education-card flyin-edu">
+                <div class="degree">Secondary Education</div>
+                <div class="school">D.A.V Model School, Durgapur</div>
+                <div class="loc">Durgapur, India</div>
+                <div class="year">2022</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section-card">
+        <h2 class="section-title">Skills Summary</h2>
+        <div class="skills-grid">
+            <div class="skills-summary-card flyin-skill" style="background: linear-gradient(135deg, #4f8ef7 0%, #ffb347 100%);">
+                <div class="skill-title">Languages</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">Java</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">Python</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">C</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">C++</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">SQL</div>
+            </div>
+            <div class="skills-summary-card flyin-skill" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                <div class="skill-title">Web Technologies</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">HTML5</div>
+                <div class="skill-box bg-indigo-400 hover:bg-blue-800">CSS3</div>
+            </div>
+            <div class="skills-summary-card flyin-skill" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <div class="skill-title">Databases</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">PostgreSQL</div>
+                <div class="skill-box bg-indigo-400 hover:bg-blue-800">MySQL</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">Google Sheets API</div>
+            </div>
+            <div class="skills-summary-card flyin-skill" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                <div class="skill-title">Tools/Platforms</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">Git</div>
+                <div class="skill-box bg-indigo-400 hover:bg-blue-800">GitHub</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">VS Code</div>
+                <div class="skill-box bg-indigo-400 hover:bg-blue-800">Eclipse</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">NetBeans</div>
+                <div class="skill-box bg-indigo-400 hover:bg-blue-800">Jupyter Notebook</div>
+            </div>
+            <div class="skills-summary-card flyin-skill" style="background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);">
+                <div class="skill-title">Concepts</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">OOP</div>
+                <div class="skill-box bg-indigo-400 hover:bg-blue-800">Data Structures & Algorithms</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">DBMS</div>
+            </div>
+            <div class="skills-summary-card flyin-skill" style="background: linear-gradient(135deg, #f953c6 0%, #b91d73 100%);">
+                <div class="skill-title">Other Skills</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">Agile Methodology</div>
+                <div class="skill-box bg-indigo-400 hover:bg-blue-800">Problem Solving</div>
+                <div class="skill-box bg-blue-400 hover:bg-blue-800">Debugging</div>
+                <div class="skill-box bg-indigo-400 hover:bg-blue-800">Data Analysis</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section-card">
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+            <a href="https://github.com/Hrichikcoder/your-grocery-project-repo" target="_blank" class="project-card">
+                <div class="project-icon">🛒</div>
+                <div class="project-title">Grocery Management System</div>
+                <div class="project-stack">Frontend: HTML, CSS, JavaScript | Backend: Python, MySQL</div>
+                <ul>
+                    <li>Built a web-based inventory system with add, update, delete item features.</li>
+                    <li>Tracked stock levels in real-time using MySQL database.</li>
+                    <li>Designed a responsive UI with seamless Python-MySQL integration.</li>
+                </ul>
+            </a>
+            <a href="https://github.com/Hrichikcoder/Weather-App" target="_blank" class="project-card">
+                <div class="project-icon">🌤️</div>
+                <div class="project-title">Weather App</div>
+                <div class="project-stack">Python, Tkinter, OpenWeatherMap API, Multithreading ,Pillow, Requests</div>
+                <ul>
+                    <li>Created a real-time weather app with a clean UI and dynamic animations.</li>
+                    <li>Integrated OpenWeatherMap API and multithreading to avoid UI freezing.</li>
+                    <li>Used Pillow (PIL) for handling and displaying weather icons.</li>
+                    <li>Used Requests For making API calls to the OpenWeatherMap service.</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+
+    <section id="hobbies" class="section-card">
+        <h2 class="section-title">Hobbies</h2>
+        <div class="hobbies-grid">
+            <div class="hobby-icon-card" tabindex="0">
+                <div class="hobby-icon">🤖</div>
+                Learning About AI Developments
+            </div>
+            <div class="hobby-icon-card" tabindex="0">
+                <div class="hobby-icon">📚</div>
+                Reading Self-Help Books
+            </div>
+            <div class="hobby-icon-card" tabindex="0">
+                <div class="hobby-icon">🧑‍💻</div>
+                Learning New Skills
+            </div>
+        </div>
+    </section>
+
+    <section id="resume" class="section-card">
+        <h2 class="section-title">Resume</h2>
+        <div class="flex justify-center space-x-6 mb-10">
+            <button class="resume-btn" id="see-resume-btn">See Resume</button>
+            <a href="HRICHIK'S RESUME(2025).pdf" download class="resume-btn">Download Resume</a>
+        </div>
+        <div id="resume-details" class="hidden">
+            <div class="glow-card p-6 my-4 bg-gray-800 rounded-xl text-white">
+                <h3 class="text-xl font-bold mb-2">🎓 Education</h3>
+                <div class="mb-2 font-semibold">Bachelor of Science (Data Science and Application)</div>
+                <div class="mb-2">Indian Institute of Technology, Madras, Chennai, India (2024 - present)</div>
+                <div class="mb-2 font-semibold">Bachelor of Technology (CSE - AI)</div>
+                <div class="mb-2">Institute of Engineering and Management, Kolkata, West Bengal, India (2024 - present)</div>
+                <div class="mb-2 font-semibold">Higher Secondary Education (Science)</div>
+                <div class="mb-2">Purv International School, Durgapur, West Bengal, India (2024)</div>
+                <div class="mb-2 font-semibold">Secondary Education</div>
+                <div>D.A.V Model School, Durgapur, West Bengal, India (2022)</div>
+            </div>
+            <div class="glow-card p-6 my-4 bg-gray-800 rounded-xl text-white">
+                <h3 class="text-xl font-bold mb-2">💼 Skills Summary</h3>
+                <ul class="mb-2">
+                    <li>Gen A.I, Machine Learning</li>
+                    <li>Languages: Java, Python, C, C++, SQL</li>
+                    <li>Web Technologies: HTML5, CSS3</li>
+                    <li>Database: PostgreSQL, MySQL, Google Sheets API</li>
+                    <li>Tools/Platforms: Git, GitHub, VS Code, Eclipse, NetBeans, Jupyter Notebook</li>
+                    <li>Concepts: OOP, Data Structures & Algorithms, DBMS</li>
+                    <li>Other Skills: Agile Methodology, Problem Solving, Debugging, Data Analysis</li>
+                </ul>
+            </div>
+            <div class="glow-card p-6 my-4 bg-gray-800 rounded-xl text-white">
+                <h3 class="text-xl font-bold mb-2">🛠️ Projects</h3>
+                <div class="mb-2 font-semibold">Grocery Management System</div>
+                <div class="mb-2 italic">Frontend: HTML, CSS, JavaScript | Backend: Python, MySQL</div>
+                <ul class="mb-4">
+                    <li>Built a web-based inventory system with add, update, delete item features.</li>
+                    <li>Tracked stock levels in real-time using MySQL database.</li>
+                    <li>Designed a responsive UI with seamless Python-MySQL integration.</li>
+                </ul>
+                <div class="mb-2 font-semibold">Weather App</div>
+                <div class="mb-2 italic">Python, Tkinter, OpenWeatherMap API, Multithreading, Pillow, Requests</div>
+                <ul>
+                    <li>Created a real-time weather app with a clean UI and dynamic animations.</li>
+                    <li>Integrated OpenWeatherMap API and multithreading to avoid UI freezing.</li>
+                    <li>Used Pillow (PIL) for handling and displaying weather icons.</li>
+                    <li>Used Requests For making API calls to the OpenWeatherMap service.</li>
+                </ul>
+            </div>
+            <div class="glow-card p-6 my-4 bg-gray-800 rounded-xl text-white">
+                <h3 class="text-xl font-bold mb-2">🌐 Languages</h3>
+                <ul>
+                    <li>English (Proficient)</li>
+                    <li>Hindi (Proficient)</li>
+                    <li>Bengali (Native Proficiency)</li>
+                    <li>Sanskrit (Fluent)</li>
+                    <li>French (Intermediate)</li>
+                </ul>
+            </div>
+            <div class="glow-card p-6 my-4 bg-gray-800 rounded-xl text-white">
+                <h3 class="text-xl font-bold mb-2">📢 Disclaimer</h3>
+                <div>I hereby declare that the details and information given above are complete and true to my knowledge.</div>
+            </div>
+            <div class="flex justify-center mt-8">
+                <button id="back-to-portfolio-btn" class="resume-btn">Back to Portfolio</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="certificates" class="section-card">
+        <h2 class="section-title">Certificates</h2>
+        <div class="cert-bar-container">
+            <div class="cert-bar-track">
+                <div class="cert-bar-card">
+                    <a href="cert1.png" target="_blank"><img src="cert1.png" alt="Certification 1"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert2.png" target="_blank"><img src="cert2.png" alt="Certification 2"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert3.png" target="_blank"><img src="cert3.png" alt="Certification 3"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert4.png" target="_blank"><img src="cert4.png" alt="Certification 4"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert5.png" target="_blank"><img src="cert5.png" alt="Certification 5"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert6.png" target="_blank"><img src="cert6.png" alt="Certification 6"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert7.png" target="_blank"><img src="cert7.png" alt="Certification 7"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert8.png" target="_blank"><img src="cert8.png" alt="Certification 8"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert9.png" target="_blank"><img src="cert9.png" alt="Certification 9"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert10.png" target="_blank"><img src="cert10.png" alt="Certification 10"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert11.png" target="_blank"><img src="cert11.png" alt="Certification 11"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert12.png" target="_blank"><img src="cert12.png" alt="Certification 12"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert13.png" target="_blank"><img src="cert13.png" alt="Certification 13"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert14.png" target="_blank"><img src="cert14.png" alt="Certification 14"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert15.png" target="_blank"><img src="cert15.png" alt="Certification 15"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert16.png" target="_blank"><img src="cert16.png" alt="Certification 16"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert17.png" target="_blank"><img src="cert17.png" alt="Certification 17"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert18.png" target="_blank"><img src="cert18.png" alt="Certification 18"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert19.png" target="_blank"><img src="cert19.png" alt="Certification 19"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert20.png" target="_blank"><img src="cert20.png" alt="Certification 20"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert21.png" target="_blank"><img src="cert21.png" alt="Certification 21"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert22.png" target="_blank"><img src="cert22.png" alt="Certification 22"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert23.png" target="_blank"><img src="cert23.png" alt="Certification 23"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert30.png" target="_blank"><img src="cert30.png" alt="Certification 30"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert31.png" target="_blank"><img src="cert31.png" alt="Certification 31"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert32.png" target="_blank"><img src="cert32.png" alt="Certification 32"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert33.png" target="_blank"><img src="cert33.png" alt="Certification 33"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert34.png" target="_blank"><img src="cert34.png" alt="Certification 34"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert35.png" target="_blank"><img src="cert35.png" alt="Certification 35"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert36.png" target="_blank"><img src="cert36.png" alt="Certification 36"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert37.png" target="_blank"><img src="cert37.png" alt="Certification 37"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert38.png" target="_blank"><img src="cert38.png" alt="Certification 38"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert39.png" target="_blank"><img src="cert39.png" alt="Certification 39"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert40.png" target="_blank"><img src="cert40.png" alt="Certification 40"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert41.png" target="_blank"><img src="cert41.png" alt="Certification 41"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert42.png" target="_blank"><img src="cert42.png" alt="Certification 42"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert43.png" target="_blank"><img src="cert43.png" alt="Certification 43"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert44.png" target="_blank"><img src="cert44.png" alt="Certification 44"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert45.png" target="_blank"><img src="cert45.png" alt="Certification 45"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert46.png" target="_blank"><img src="cert46.png" alt="Certification 46"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert47.png" target="_blank"><img src="cert47.png" alt="Certification 47"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert48.png" target="_blank"><img src="cert48.png" alt="Certification 48"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert49.png" target="_blank"><img src="cert49.png" alt="Certification 49"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert50.png" target="_blank"><img src="cert50.png" alt="Certification 50"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert51.png" target="_blank"><img src="cert51.png" alt="Certification 51"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert52.png" target="_blank"><img src="cert52.png" alt="Certification 52"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert53.png" target="_blank"><img src="cert53.png" alt="Certification 53"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert54.png" target="_blank"><img src="cert54.png" alt="Certification 54"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert55.png" target="_blank"><img src="cert55.png" alt="Certification 55"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert56.png" target="_blank"><img src="cert56.png" alt="Certification 56"></a>
+                </div>
+                <div class="cert-bar-card">
+                    <a href="cert57.png" target="_blank"><img src="cert57.png" alt="Certification 57"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="contact" class="section-card">
+        <h2 class="contact-title">Contact Me</h2>
+        <p class="text-lg mb-10 text-gray-200 text-center">Want to collaborate or have a question? Reach out via email or connect with me on social media!</p>
+        <div class="flex justify-center space-x-8">
+            <a href="tel:+919475744989" class="contact-icon">
+                <svg class="w-8 h-8 text-teal-400" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79a15.1 15.1 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21 11.5 11.5 0 003.54.56 1 1 0 011 1V20a1 1 0 01-1 1A18 18 0 013 6a1 1 0 011-1h3.35a1 1 0 011 1 11.5 11.5 0 00.56 3.54 1 1 0 01-.21 1.11l-2.2 2.2z"/></svg>
+            </a>
+            <a href="mailto:hrichik2006@gmail.com" class="contact-icon">
+                <svg class="w-8 h-8 text-pink-400" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm-1.5 4.5l-6.5 4-6.5-4V6l6.5 4 6.5-4v2.5z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/hrichik07/" class="contact-icon">
+                <svg class="w-8 h-8 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h14zm-9.5 14.5v-6h-2v6h2zm-1-7.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm9.5 7.5v-3.5a3 3 0 00-3-3h-1.5a.5.5 0 00-.5.5v6h2v-3h.5a1 1 0 011 1v2h2z"/></svg>
+            </a>
+            <a href="https://github.com/Hrichikcoder" class="contact-icon">
+                <svg class="w-8 h-8 text-purple-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2A10 10 0 002 12a10 10 0 006.84 9.49c.5.09.68-.22.68-.49v-1.72c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.12-1.47-1.12-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.64-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0112 6.8c.85.004 1.71.114 2.51.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.49A10 10 0 0022 12 10 10 0 0012 2z"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <footer class="py-6 text-center">
+        <p>© 2025 Hrichik Khandait. Made with Love.</p>
+    </footer>
+
+    <script>
+        // Typing animation for main landing page
+        const typingText = "Data Science & AI Enthusiast";
+        const typingElem = document.getElementById('typing');
+        
+        function startTyping() {
+            let i = 0;
+            typingElem.textContent = ''; // Ensure the element is empty before starting
+            const typingInterval = setInterval(() => {
+                if (i < typingText.length) {
+                    typingElem.textContent += typingText.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(typingInterval);
+                    // The cursor will continue to blink thanks to the CSS animation.
+                }
+            }, 100); // Typing speed in milliseconds
+        }
+
+        startTyping(); // Start the animation on page load.
+
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Back to Top Button
+        const backToTop = document.getElementById('back-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) backToTop.style.display = 'flex';
+            else backToTop.style.display = 'none';
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // GSAP fly-in for education cards
+        gsap.utils.toArray(".flyin-edu").forEach((el, i) => {
+            gsap.from(el, {
+                x: i % 2 === 0 ? -120 : 120,
+                opacity: 0,
+                duration: 1.1,
+                delay: i * 0.13,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 90%",
+                }
+            });
+        });
+
+        // GSAP fly-in for skills cards
+        gsap.utils.toArray(".flyin-skill").forEach((el, i) => {
+            gsap.from(el, {
+                y: 80,
+                opacity: 0,
+                duration: 1.1,
+                delay: i * 0.08,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 95%",
+                }
+            });
+        });
+
+        // Projects fly-in (centered)
+        gsap.utils.toArray(".project-card").forEach((el, i) => {
+            gsap.from(el, {
+                y: 80,
+                opacity: 0,
+                duration: 1.1,
+                delay: i * 0.13,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 90%",
+                }
+            });
+        });
+
+        // Certificates back-and-forth animation
+        const certTrack = document.querySelector(".cert-bar-track");
+        if (certTrack) {
+            const gap = 40; // 2.5rem converted to px (assuming 1rem = 16px)
+            
+            // Clone original items to create a seamless loop
+            const originalChildren = Array.from(certTrack.children);
+            originalChildren.forEach(item => {
+                const clone = item.cloneNode(true);
+                certTrack.appendChild(clone);
+            });
+
+            // Calculate the total width of the original content
+            let originalContentWidth = 0;
+            originalChildren.forEach(item => {
+                 originalContentWidth += item.offsetWidth + gap;
+            });
+            
+            gsap.set(certTrack, {x:0}); // Ensure starting position is 0
+            
+            gsap.to(certTrack, {
+                x: -originalContentWidth, // Scroll by the width of one full set of original content
+                duration: 120, // Slower duration
+                ease: "none",
+                repeat: -1
+            });
+        }
+
+        // Resume toggle (see resume/back)
+        document.getElementById('see-resume-btn').onclick = function() {
+            const details = document.getElementById('resume-details');
+            details.classList.remove('hidden');
+            setTimeout(() => {
+                details.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        };
+        document.getElementById('back-to-portfolio-btn').onclick = function() {
+            document.getElementById('resume-details').classList.add('hidden');
+            window.scrollTo({ top: document.getElementById('resume').offsetTop - 80, behavior: 'smooth' });
+        };
+    </script>
+</body>
+</html>
